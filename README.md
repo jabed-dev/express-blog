@@ -1,4 +1,4 @@
-# express post
+# express blog
 
 install app package `npm install`\
 start production server `npm start`\

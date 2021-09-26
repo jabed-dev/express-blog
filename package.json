@@ -1,7 +1,7 @@
 {
-  "name": "express-post",
+  "name": "express-blog",
   "version": "1.0.0",
-  "description": "express post get | create | update | delete",
+  "description": "express blog, post get | create | update | delete",
   "main": "app.js",
   "scripts": {
     "start": "node app",
