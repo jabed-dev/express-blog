@@ -1,0 +1,100 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.form-input {
+    margin: 10px 0px;
+}
+
+.form-input input, .form-input textarea {
+    width: 100%;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    border: 1.6px solid lightgray;
+    padding: .375rem .75rem;
+    outline: none;
+    resize: vertical;
+    max-height: 300px;
+}
+
+.submit-btn {
+    width: 100%;
+    color: #fff;
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    cursor: pointer;
+    outline: none;
+}
+
+.submit-btn:hover {
+    background-color: #0868f8;
+    color: #f1f1f1;
+}
+
+.post {
+    border: 1px solid lightgrey;
+    margin: 5px 0px;
+    border-radius: 4px;
+    padding: 8px;
+    padding-right: 0;
+    position: relative;
+    min-height: 80px;
+    display: flex;
+}
+
+.left, .right {
+    display: flex;
+    flex-direction: column;
+}
+
+.left {
+    flex: 1 calc(100% - 40px);
+}
+
+.right {
+    flex: 1 40px;
+    align-items: center;
+}
+
+.post h4 {
+    padding-bottom: 4px;
+    font-size: large;
+}
+
+.delete-btn, .update-btn {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    padding: 6px;
+}
+
+.delete-btn {
+    color: crimson;
+}
+
+.delete-btn:hover {
+    color: #970c0c;
+}
+
+.update-btn {
+    color: #1870f3;
+}
+
+.update-btn:hover {
+    color: #0650be;
+}

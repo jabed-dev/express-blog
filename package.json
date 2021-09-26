@@ -1,0 +1,21 @@
+{
+  "name": "express-post",
+  "version": "1.0.0",
+  "description": "express post get | create | update | delete",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "dev": "nodemon app"
+  },
+  "keywords": [
+    "mongodb",
+    "heroku",
+    "express"
+  ],
+  "author": "Jabed Hossain",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^6.0.7"
+  }
+}
