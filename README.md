@@ -1,6 +1,8 @@
 # express blog
 
-install app package `npm install`\
-start production server `npm start`\
+install all package `npm install`\
+start production with nodejs `npm start`\
+start production width pm2 `npm run pro`
+stop production width pm2 `npm stop`
 start development server `npm run dev`\
-server run `http://localhost:5050/`
+server run `http://127.0.0.1:9090/`
