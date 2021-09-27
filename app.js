@@ -15,8 +15,9 @@ app.use(express.static('public'));
 app.use('/api/posts', apiRoute);
 
 // config variables
-const PORT = process.env.PORT || 5050;
-const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/TestDB'
+const port = process.env.PORT || 9090
+    , hostname = '127.0.0.1'
+    , dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/TestDB';
 
 // database connection
 mongoose.connect(dbUrl, {
@@ -28,9 +29,9 @@ mongoose.connection.on('connected', (err) => {
     if (err) {
         console.log(err.message);
     }
-    console.log('\033[32mDatabase connected with MongoDB');
+    console.log('\033[32mDatabase connected..');
     // server listening
-    app.listen(PORT, () => {
-        console.log(`Server is listening on${'\033[0m'} ${'\033[33m'}http://127.0.0.1:${PORT}${'\033[0m'}`);
+    app.listen(port, hostname, () => {
+        console.log(`Server running on${'\033[0m'} ${'\033[33m'}http://${hostname}:${port}/${'\033[0m'}`);
     });
 })
