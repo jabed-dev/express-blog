@@ -5,7 +5,9 @@
   "main": "app.js",
   "scripts": {
     "start": "node app",
-    "dev": "nodemon app"
+    "dev": "nodemon app",
+    "pro": "pm2 start app",
+    "stop": "pm2 stop app"
   },
   "keywords": [
     "mongodb",
