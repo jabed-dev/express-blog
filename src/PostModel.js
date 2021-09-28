@@ -17,5 +17,5 @@ const PostSchema = new Schema({
 })
 
 
-module.exports = mongoose.model('ExpressBlog', PostSchema);
+module.exports = mongoose.model('ExpressBlogs', PostSchema);
 
