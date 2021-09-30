@@ -44,7 +44,7 @@ mongoose.connection.on('connected', (err) => {
     // server listening
     app.listen(PORT, () => {
         console.log(`Server is listening on port: ${PORT}${'\033[0m'}`);
-        console.log(`Local          : ${'\033[33m'}http://${'127.0.0.1'}:${PORT}/${'\033[0m'}`);
-        console.log(`On Your Network: ${'\033[33m'}http://${IP_ADDRESS}:${PORT}/${'\033[0m'}`);
+        console.log(`Local Network: ${'\033[33m'}http://${'127.0.0.1'}:${PORT}/${'\033[0m'}`);
+        console.log(`Your Network:  ${'\033[33m'}http://${IP_ADDRESS}:${PORT}/${'\033[0m'}`);
     });
 })
