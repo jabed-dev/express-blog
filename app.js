@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const apiRoute = require('./src/apiRoute');
+const { networkInterfaces } = require('os')
 
 // create app
 const app = express();
@@ -14,13 +15,23 @@ app.use(express.static('public'));
 // api route
 app.use('/api/posts', apiRoute);
 
+// get local IP address
+const NIF = networkInterfaces();
+let IP_ADDRESS;
+for (let name of Object.keys(NIF)) {
+    for (let net of NIF[name]) {
+        if (net.family === 'IPv4' && !net.internal) {
+            IP_ADDRESS = net.address
+        }
+    }
+}
+
 // config variables
-const port = process.env.PORT || 5050
-    , hostname = '127.0.0.1'
-    , dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/TestDB';
+const PORT = process.env.PORT || 5050
+    , DB_URL = process.env.DB_URL || 'mongodb://localhost:27017/TestDB';
 
 // database connection
-mongoose.connect(dbUrl, {
+mongoose.connect(DB_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
@@ -29,9 +40,11 @@ mongoose.connection.on('connected', (err) => {
     if (err) {
         console.log(err.message);
     }
-    console.log('\033[32mDatabase connected..');
+    console.log('\033[32mDatabase connected with MongoDB');
     // server listening
-    app.listen(port, hostname, () => {
-        console.log(`Server running on${'\033[0m'} ${'\033[33m'}http://${hostname}:${port}/${'\033[0m'}`);
+    app.listen(PORT, () => {
+        console.log(`Server is listening on port: ${PORT}${'\033[0m'}`);
+        console.log(`Local          : ${'\033[33m'}http://${'127.0.0.1'}:${PORT}/${'\033[0m'}`);
+        console.log(`On Your Network: ${'\033[33m'}http://${IP_ADDRESS}:${PORT}/${'\033[0m'}`);
     });
 })
