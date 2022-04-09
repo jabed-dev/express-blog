@@ -34,10 +34,12 @@ window.addEventListener('load', async () => {
                     postTitle.innerText = title;
                     postBody.innerText = body;
 
-                    this.removeAttribute('data-id');
                     updated.removeAttribute('id');
                     inputTitle.value = '';
                     inputBody.value = '';
+                    this.removeAttribute('data-id');
+                    this.innerText = 'Submit'
+
                 } else {
                     alert(message);
                 }
@@ -86,6 +88,7 @@ async function updatePost(updateBtn, submitBtn, inputTitle, inputBody) {
         inputTitle.value = postTitle.textContent;
         inputBody.value = postBody.textContent;
         submitBtn.setAttribute('data-id', id);
+        submitBtn.innerText = 'Update'
         post.setAttribute('id', 'updated');
     })
 }
@@ -119,10 +122,10 @@ function createList(title, body, id) {
         </div>
         <div class="right">
         <svg class="update-btn">
-        <use xlink:href="edit-pencil.svg#pencil" />
+        <use xlink:href="icons/edit-pencil.svg#pencil" />
         </svg>
         <svg class="delete-btn">
-        <use xlink:href="trash.svg#trash" />
+        <use xlink:href="icons/trash.svg#trash" />
         </svg>
         </div>`
 
