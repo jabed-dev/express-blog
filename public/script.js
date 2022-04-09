@@ -80,7 +80,7 @@ async function updatePostBtn(updateBtn) {
 // delete post
 async function deletePost(deleteBtn) {
     deleteBtn.addEventListener('click', async function (event) {
-        if (!confirm('Do you want to delete your post?')) return
+        // if (!confirm('Do you want to delete your post?')) return
         let post = event.path.find(element => element.className === 'post')
             , { id } = post.dataset
             , { message, deleted } = await apiRequest(`/api/posts/delete/${id}`, 'delete');
