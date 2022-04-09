@@ -16,7 +16,8 @@
     margin: 10px 0px;
 }
 
-.form-input input, .form-input textarea {
+.form-input input,
+.form-input textarea {
     width: 100%;
     font-size: 1rem;
     line-height: 1.5;
@@ -26,10 +27,12 @@
     outline: none;
     resize: vertical;
     max-height: 300px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
-.submit-btn {
-    width: 100%;
+.submit-btn,
+.cancel-btn {
+    flex: 2 50%;
     color: #fff;
     background-color: #0d6efd;
     border-color: #0d6efd;
@@ -42,8 +45,28 @@
 }
 
 .submit-btn:hover {
-    background-color: #0868f8;
+    background-color: #0061f3;
     color: #f1f1f1;
+}
+
+.cancel-btn {
+    display: none;
+    border-color: #f11818;
+    background-color: #f11818;
+    border-left: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.cancel-btn:hover {
+    color: #f1f1f1;
+    background-color: #e71d1d;
+}
+
+.cancel-active {
+    border-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
 }
 
 .post {
@@ -57,7 +80,8 @@
     display: flex;
 }
 
-.left, .right {
+.left,
+.right {
     display: flex;
     flex-direction: column;
 }
@@ -71,12 +95,13 @@
     align-items: center;
 }
 
-.post h4 {
-    padding-bottom: 4px;
-    font-size: large;
+.post h3 {
+    padding-bottom: 8px;
+    font-size: 20px;
 }
 
-.delete-btn, .update-btn {
+.delete-btn,
+.update-btn {
     width: 30px;
     height: 30px;
     cursor: pointer;
@@ -84,11 +109,11 @@
 }
 
 .delete-btn {
-    color: crimson;
+    color: #f10b1e;
 }
 
 .delete-btn:hover {
-    color: #970c0c;
+    color: #c90909;
 }
 
 .update-btn {

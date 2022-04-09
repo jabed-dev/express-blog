@@ -1,9 +1,11 @@
+const inputTitle = document.getElementById('input-title')
+    , inputBody = document.getElementById('input-body')
+    , submitBtn = document.getElementById('submit-btn')
+    , postList = document.getElementById('post-list')
+    , cancelBtn = document.getElementById('cancel-btn')
+
 window.addEventListener('load', async () => {
-    const inputTitle = document.getElementById('input-title')
-        , inputBody = document.getElementById('input-body')
-        , submitBtn = document.getElementById('submit-btn')
-        , postList = document.getElementById('post-list')
-        , updateBtn = document.getElementsByClassName('update-btn')
+    const updateBtn = document.getElementsByClassName('update-btn')
         , deletesBtn = document.getElementsByClassName('delete-btn')
 
     // Get all Post
@@ -17,51 +19,31 @@ window.addEventListener('load', async () => {
     submitBtn.addEventListener('click', async function (event) {
         event.preventDefault();
 
-        if (!inputTitle.value || !inputBody.value) {
-            inputField(inputTitle, inputBody);
+        if (!inputField(inputTitle, inputBody)) return;
+
+        let data = { title: inputTitle.value, body: inputBody.value }
+            , { id } = this.dataset;
+        if (id) {
+            await updatePost(id, data)
+            return
+        }
+
+        let { title, body, _id, message } = await apiRequest('/api/posts/create', 'post', data);
+        if (_id) {
+            let post = createList(title, body, _id);
+            deletePost(post.getElementsByClassName('delete-btn')[0])
+            updatePostBtn(post.getElementsByClassName('update-btn')[0]);
+            postList.prepend(post);
+            inputTitle.value = '';
+            inputBody.value = '';
         } else {
-            inputField(inputTitle, inputBody);
-            let data = { title: inputTitle.value, body: inputBody.value }
-                , { id } = this.dataset;
-
-            if (id) {
-                let { title, body, _id, message } = await apiRequest(`/api/posts/update/${id}`, 'patch', data);
-                if (_id) {
-                    let updated = document.getElementById('updated')
-                        , postTitle = updated.getElementsByTagName('h4')[0]
-                        , postBody = updated.getElementsByTagName('p')[0];
-
-                    postTitle.innerText = title;
-                    postBody.innerText = body;
-
-                    updated.removeAttribute('id');
-                    inputTitle.value = '';
-                    inputBody.value = '';
-                    this.removeAttribute('data-id');
-                    this.innerText = 'Submit'
-
-                } else {
-                    alert(message);
-                }
-            } else {
-                let { title, body, _id, message } = await apiRequest('/api/posts/create', 'post', data);
-                if (_id) {
-                    let post = createList(title, body, _id);
-                    deletePost(post.getElementsByClassName('delete-btn')[0])
-                    updatePost(post.getElementsByClassName('update-btn')[0], submitBtn, inputTitle, inputBody);
-                    postList.prepend(post);
-                    inputTitle.value = '';
-                    inputBody.value = '';
-                } else {
-                    alert(message)
-                }
-            }
+            alert(message)
         }
     })
 
     for (i = 0; i < deletesBtn.length; i++) {
         deletePost(deletesBtn[i]);
-        updatePost(updateBtn[i], submitBtn, inputTitle, inputBody);
+        updatePostBtn(updateBtn[i]);
     }
 })
 
@@ -78,33 +60,34 @@ async function apiRequest(url, method, data) {
 }
 
 // update post
-async function updatePost(updateBtn, submitBtn, inputTitle, inputBody) {
+async function updatePostBtn(updateBtn) {
     updateBtn.addEventListener('click', async function (event) {
         let post = event.path.find(element => element.className === 'post')
             , { id } = post.dataset
-            , postTitle = post.getElementsByTagName('h4')[0]
+            , postTitle = post.getElementsByTagName('h3')[0]
             , postBody = post.getElementsByTagName('p')[0];
 
         inputTitle.value = postTitle.textContent;
         inputBody.value = postBody.textContent;
         submitBtn.setAttribute('data-id', id);
         submitBtn.innerText = 'Update'
-        post.setAttribute('id', 'updated');
+        submitBtn.classList.add('cancel-active')
+        cancelBtn.style.display = 'block'
+        post.setAttribute('id', 'updating');
     })
 }
 
 // delete post
 async function deletePost(deleteBtn) {
     deleteBtn.addEventListener('click', async function (event) {
+        if (!confirm('Do you want to delete your post?')) return
         let post = event.path.find(element => element.className === 'post')
             , { id } = post.dataset
             , { message, deleted } = await apiRequest(`/api/posts/delete/${id}`, 'delete');
         if (deleted) {
-            alert(message);
             post.remove();
-        } else {
-            alert(message);
         }
+        alert(message);
     })
 }
 
@@ -112,12 +95,17 @@ async function deletePost(deleteBtn) {
 function inputField(inputTitle, inputBody) {
     inputTitle.style.borderColor = inputTitle.value ? 'lightgray' : 'crimson';
     inputBody.style.borderColor = inputBody.value ? 'lightgray' : 'crimson';
+    if (!inputTitle.value || !inputBody.value) {
+        return false
+    } else {
+        return true
+    }
 }
 
 // create post List
 function createList(title, body, id) {
     let elements = `<div class="left">
-        <h4>${title}</h4>
+        <h3>${title}</h3>
         <p>${body}</p>
         </div>
         <div class="right">
@@ -135,3 +123,36 @@ function createList(title, body, id) {
     div.innerHTML = elements;
     return div;
 }
+
+async function updatePost(id, data) {
+    let { title, body, _id, message } = await apiRequest(`/api/posts/update/${id}`, 'patch', data);
+    if (_id) {
+        let updating = document.getElementById('updating')
+            , postTitle = updating.getElementsByTagName('h3')[0]
+            , postBody = updating.getElementsByTagName('p')[0];
+
+        postTitle.innerText = title;
+        postBody.innerText = body;
+
+        updating.removeAttribute('id');
+        inputTitle.value = '';
+        inputBody.value = '';
+        submitBtn.removeAttribute('data-id');
+        submitBtn.innerText = 'Submit'
+        submitBtn.classList.remove('cancel-active')
+        cancelBtn.style.display = 'none'
+    } else {
+        alert(message);
+    }
+}
+
+// cancel button
+
+cancelBtn.addEventListener('click', function () {
+    document.getElementById('updating').removeAttribute('id');
+
+    submitBtn.removeAttribute('data-id');
+    submitBtn.innerText = 'Submit'
+    submitBtn.classList.remove('cancel-active')
+    this.style.display = 'none'
+})
